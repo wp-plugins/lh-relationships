@@ -19,5 +19,8 @@ Once activated the plugin allow uris to be published and relationships to be cre
 
 == Changelog == 
 
+**0.0.2 December 20, 2011**  
+Basic menu's
+
 **0.0.1 December 15, 2011**  
 Initial release.

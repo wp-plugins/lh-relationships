@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/
 Description: Add RDF relationship support to Wordpress
-Version: 0.03
+Version: 0.02
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -11,10 +11,9 @@ Author URI: http://shawfactor.com/
 
 = 0.01 =
 * Added query to return RDF
+
 = 0.02 =
-* Added functions to add namespace and items to the RDF feed
-= 0.02 =
-* Added functions to create tables on activation
+Basic menu's
 
 Copyright 2010  Peter Shaw  (email : pete@localhero.biz)
 

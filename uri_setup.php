@@ -205,6 +205,37 @@ function LH_relationships_predicate_options() {
 global $wpdb;
 
 
+?>
+
+<form name="form1" method="post" action="">
+<input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
+
+<p><?php _e("Post ID:", 'menu-test' ); ?> 
+<input type="text" name="LH_relationships_PostsId" value="" size="20">
+</p>
+
+<p><?php _e("Prefix:", 'menu-test' ); ?> 
+<input type="text" name="LH_relationships_prefix" value="" size="20">
+</p>
+
+<p><?php _e("Namespace of attribute", 'menu-test' ); ?> 
+<select name="LH_relationships_NamespaceId">
+<option value="yes">Yes</option>
+<option value="no" selected="yes">No</option>
+</select>
+</p>
+
+
+<p class="submit">
+<input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
+</p>
+
+</form>
+
+
+<?php
+
+
 $lhrdf_sql = "SELECT * FROM ".$wpdb->prefix."predicate a, ".$wpdb->prefix."namespace b, ".$wpdb->prefix."posts c where a.NamespaceId = b.Id and a.AttributeId = c.Id";
 
 echo $lhrdf_sql;
