@@ -1,6 +1,6 @@
 === LH Relationships ===
 Contributors: shawfactor
-Donate link: http://localhero.biz/plugins/lh-relationsips/
+Donate link: http://localhero.biz/plugins/lh-relationships/
 Tags: feed, feeds, rdf, localhero, sioc, skos, foaf
 Requires at least: 3.0
 Tested up to: 3.2
