@@ -210,20 +210,22 @@ global $wpdb;
 <form name="form1" method="post" action="">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 
-<p><?php _e("Post ID:", 'menu-test' ); ?> 
-<input type="text" name="LH_relationships_PostsId" value="" size="20">
-</p>
-
-<p><?php _e("Prefix:", 'menu-test' ); ?> 
-<input type="text" name="LH_relationships_prefix" value="" size="20">
-</p>
-
 <p><?php _e("Namespace of attribute", 'menu-test' ); ?> 
 <select name="LH_relationships_NamespaceId">
 <option value="yes">Yes</option>
 <option value="no" selected="yes">No</option>
 </select>
 </p>
+
+<p><?php _e("Fragment:", 'menu-test' ); ?> 
+<input type="text" name="LH_relationships_fragment" value="" size="64">
+</p>
+
+<p><?php _e("Post Id of Atribute:", 'menu-test' ); ?> 
+<input type="text" name="LH_relationships_AttributeId" value="" size="20">
+</p>
+
+
 
 
 <p class="submit">
