@@ -162,8 +162,6 @@ echo "<table><tr><th>#</th><th>Post ID</th><th>Title</th><th>Prefix</th><th>GUID
 
 $results = $wpdb->get_results($lhrdf_sql);
 
-print_r($results);
-
 $i = 0;
 
 while ($i < count($results)) {
@@ -202,7 +200,18 @@ echo "</table>";
 
 function LH_relationships_predicate_options() {
 
+if (!current_user_can('manage_options')){
+
+wp_die( __('You do not have sufficient permissions to access this page.') );
+
+}
+
+$hidden_field_name = 'LH_relationships_submit_hidden';
+
+echo "<h2>" . __( 'Add Predicate', 'menu-test' ) . "</h2>";
+
 global $wpdb;
+
 
 
 ?>
@@ -212,21 +221,34 @@ global $wpdb;
 
 <p><?php _e("Namespace of attribute", 'menu-test' ); ?> 
 <select name="LH_relationships_NamespaceId">
-<option value="yes">Yes</option>
-<option value="no" selected="yes">No</option>
+
+<?php
+
+$lhrdf_sql = "SELECT * FROM ".$wpdb->prefix."posts a, ".$wpdb->prefix."namespace b WHERE  a.Id = b.PostsId";
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+$i = 0;
+
+while ($i < count($results)) {
+
+echo "<option value=\"".$results[$i]->Id."\">".$results[$i]->post_title."</option>";
+
+$i++;
+
+
+}
+
+
+
+?>
+
 </select>
 </p>
 
 <p><?php _e("Fragment:", 'menu-test' ); ?> 
 <input type="text" name="LH_relationships_fragment" value="" size="64">
 </p>
-
-<p><?php _e("Post Id of Atribute:", 'menu-test' ); ?> 
-<input type="text" name="LH_relationships_AttributeId" value="" size="20">
-</p>
-
-
-
 
 <p class="submit">
 <input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e('Save Changes') ?>" />
@@ -238,13 +260,21 @@ global $wpdb;
 <?php
 
 
+
+if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
+
+$results = LH_relationships_create_attribute_uri_post($_POST[LH_relationships_NamespaceId], $_POST[LH_relationships_fragment]);
+
+}
+
+
 $lhrdf_sql = "SELECT * FROM ".$wpdb->prefix."predicate a, ".$wpdb->prefix."namespace b, ".$wpdb->prefix."posts c where a.NamespaceId = b.Id and a.AttributeId = c.Id";
 
-echo $lhrdf_sql;
+//echo $lhrdf_sql;
 
 $results = $wpdb->get_results($lhrdf_sql);
 
-print_r($results);
+//print_r($results);
 
 
 echo "<table><tr><th>#</th><th>Namespace</th><th>Post ID</th><th>Title</th><th>Fragment</th><th>GUID</th><th>Information</th></tr>";
@@ -260,17 +290,19 @@ echo "<tr>";
 
 echo "<td>".$i."</td>";
 
-echo "<td>".$results[$i]->ID."</td>";
+echo "<td>".$results[$i]->prefix."</td>";
+
+echo "<td>".$results[$i]->AttributeId."</td>";
 
 echo "<td>".$results[$i]->post_title."</td>";
 
 echo "<td>".$results[$i]->fragment."</td>";
 
+echo "<td><a href=\"".$results[$i]->guid."\">".$results[$i]->guid."</a></td>";
+
 $permalink = get_permalink($results[$i]->ID);
 
 echo "<td>".$permalink."</td>";
-
-echo "<td><a href=\"".$results[$i]->guid."\">".$results[$i]->guid."</a></td>";
 
 
 echo "</tr>";

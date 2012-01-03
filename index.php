@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/
 Description: Add RDF relationship support to Wordpress
-Version: 0.04
+Version: 0.06
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -20,6 +20,12 @@ Basic menu's
 
 = 0.04 =
 Improved menu's
+
+= 0.05 =
+Attribute Listing's
+
+= 0.06 =
+Automatically create namespaces and attributes
 
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
@@ -38,13 +44,156 @@ Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if ($_GET["feed"]){ 
-remove_filter('template_redirect','redirect_canonical');
+
+include_once('system.php');
+
+function LH_relationships_create_attribute_guid($namespace_guid, $fragment) {
+
+$str = $namespace_guid;
+$last = $str[strlen($str)-1];
+
+if ($last == "/"){
+
+$last = $namespace_guid.$fragment;
+
+} else if ($last == "#"){
+
+$last = $namespace_guid.$fragment;
+
+} else {
+
+$last = $namespace_guid."/".$fragment;
+
+}
+
+return $last;
+
+}
+
+
+function LH_relationships_create_attribute_uri_post($namespaceId, $fragment) {
+
+global $wpdb;
+
+global $user_ID; 
+
+$lhrdf_sql = "SELECT a.ID, a.guid FROM ".$wpdb->prefix."posts a, ".$wpdb->prefix."namespace b WHERE  a.ID = b.PostsId and b.Id = '".$namespaceId."'";
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+$parent = $results[0]->ID;
+
+if ($results[0]->guid){
+
+$post_guid = LH_relationships_create_attribute_guid($results[0]->guid, $fragment); 
+
+$lhrdf_sql = "SELECT ID FROM ".$wpdb->prefix."posts where guid = '".$post_guid."'";
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+if (!$results[0]->ID){
+
+$new_post = array(  
+
+'post_title' => $fragment." attribute",  
+
+'post_content' => 'Lorem ipsum dolor sit amet...',  
+
+'post_status' => 'publish',  
+
+'post_name' => $fragment,
+
+'post_parent' => $parent,
+
+'guid' => $post_guid,
+
+'post_author' => $user_ID,  
+
+'post_type' => 'uri'
+);  
+
+$post_id = wp_insert_post($new_post);
+
+} else {
+
+$post_id = $results[0]->ID;
+
+  $my_post = array();
+  $my_post['ID'] = $post_id;
+  $my_post['post_parent'] = $parent;
+  wp_update_post( $my_post );
+
+
+}
+
+$lhrdf_sql = "INSERT INTO ".$wpdb->prefix."predicate ( Id, NamespaceId, fragment, AttributeId) VALUES (NULL, '".$namespaceId."', '".$fragment."', '".$post_id."')";
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+}
+
 }
 
 
 
-include_once('system.php');
+
+
+function LH_relationships_create_namespace_post($namespace_name, $namespace_guid, $prefix, $wp_ns) {
+
+global $wpdb;
+
+$lh_sql = "SELECT guid FROM ".$wpdb->prefix."posts where guid = '".$namespace_guid."'"; 
+
+
+$results = $wpdb->get_results($lh_sql);
+
+
+if (!$results[0]->guid){
+
+global $user_ID;  
+
+$new_post = array(  
+
+'post_title' => $namespace_name,
+
+'post_content' => $namespace_name." info",  
+
+'post_status' => 'publish',  
+
+'post_name' => $prefix,
+
+'guid' => $namespace_guid,
+
+'post_author' => $user_ID,  
+
+'post_type' => 'uri'
+);  
+
+$post_id = wp_insert_post($new_post);
+
+$lhrdf_sql = "INSERT INTO ".$wpdb->prefix."namespace ( Id , PostsId , prefix , wp_ns ) VALUES ( NULL , '".$post_id."', '".$prefix."', '".$wp_ns."' )";
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+$lastid = $wpdb->insert_id;
+
+return $lastid;
+
+} else {
+
+$lhrdf_sql = "SELECT b.Id FROM ".$wpdb->prefix."posts a, ".$wpdb->prefix."namespace b WHERE  a.Id = b.PostsId and a.guid ='".$results[0]->guid."'";
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+$return = $results[0]->Id;
+
+return $return;
+
+
+}
+
+}
+
 
 function isValidURL($url){
 return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url);
@@ -59,13 +208,46 @@ $query = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix."namespace ( `Id` bigint(20
 
 $results = $wpdb->get_results($query);
 
-$query = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix."predicate (`Id` bigint(20) unsigned NOT NULL auto_increment, `NamespaceId` bigint(20) NOT NULL, `fragment` varchar(64) character set utf8 NOT NULL, `AttributeId` bigint(20) NOT NULL, PRIMARY KEY  (`Id`)) DEFAULT CHARSET=utf8";
+$query = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix."predicate (`Id` bigint(20) unsigned NOT NULL auto_increment, `NamespaceId` bigint(20) NOT NULL, `fragment` varchar(64) character set utf8 NOT NULL, `AttributeId` bigint(20) NOT NULL, PRIMARY KEY  (`Id`), UNIQUE KEY AttributeId (`AttributeId`)) DEFAULT CHARSET=utf8";
 
 $results = $wpdb->get_results($query);
 
 $query = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."statement` ( `Id` bigint(20) unsigned NOT NULL auto_increment, `SubjectId` bigint(20) unsigned NOT NULL, `PredicateId` bigint(20) unsigned NOT NULL, `OjectId` bigint(20) unsigned NOT NULL, `namespace_val` varchar(250) default NULL, `prefix_val` varchar(4) default NULL, `attribute_val` varchar(20) default NULL, PRIMARY KEY  (`Id`)) DEFAULT CHARSET=utf8";
 
 $results = $wpdb->get_results($query);
+
+$foo = LH_relationships_create_namespace_post("RDF NS", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdf", "yes");
+
+$foo = LH_relationships_create_namespace_post("Friend of a friend", "http://xmlns.com/foaf/0.1/", "foaf", "no"); 
+
+$foo = LH_relationships_create_namespace_post("SIOC ns", "http://rdfs.org/sioc/ns#", "sioc", "no");
+
+$bar = LH_relationships_create_attribute_uri_post($foo, "topic");
+
+$foo = LH_relationships_create_namespace_post("RDF types ns", "http://www.w3.org/2000/01/rdf-schema#", "rdfs", "no");
+
+$bar = LH_relationships_create_attribute_uri_post($foo, "seeAlso");
+
+$foo = LH_relationships_create_namespace_post("SKOS schema", "http://www.w3.org/2004/02/skos/core#", "skos", "no");
+
+$foo = LH_relationships_create_namespace_post("Meaning of tag", "http://moat-project.org/ns#", "moat", "no");
+
+$foo = LH_relationships_create_namespace_post("LocalHero namespace", "http://localhero.biz/uri/localhero-namespace/", "lh", "no");
+
+$foo = LH_relationships_create_namespace_post("Admin namespace", "http://webns.net/mvcb/", "admin", "yes");
+
+$foo = LH_relationships_create_namespace_post("Content module", "http://purl.org/rss/1.0/modules/content/", "content", "yes");
+
+$foo = LH_relationships_create_namespace_post("Dublin Core module", "http://purl.org/dc/elements/1.1/", "dc", "yes");
+
+$foo = LH_relationships_create_namespace_post("Dublin Core terms module", "http://purl.org/dc/terms/", "dcterms", "no");
+
+$foo = LH_relationships_create_namespace_post("SIOC terms module", "http://rdfs.org/sioc/types#", "sioct", "no");
+
+$foo = LH_relationships_create_namespace_post("tag module", "http://www.holygoat.co.uk/owl/redwood/0.1/tags/", "tag", "no");
+
+$foo = LH_relationships_create_namespace_post("Georss module", "http://www.georss.org/georss", "georss", "no");
+
 
 }
 
@@ -112,6 +294,7 @@ global $wpdb;
 $sql = "SELECT b.guid as namespace, a.prefix as prefix FROM ".$wpdb->prefix."namespace a, ".$wpdb->prefix."posts b WHERE a.PostsId = b.Id";
 
 $results = $wpdb->get_results($sql);
+
 
 return $results;
 
@@ -166,6 +349,8 @@ $j++;
 }
 
 function LH_relationships_add_compliant_rdf_namespace() {
+
+
 
 $lhrdfnamespaces = LH_relationships_return_compliant_namespace();
 
@@ -339,8 +524,6 @@ echo get_category_link($categories[$j]->cat_ID);
 echo"\">";
 
 echo "<skos:prefLabel xml:lang=\"en\">".$categories[$j]->category_nicename."</skos:prefLabel>";
-
-//print_r($categories[$j]);
 
 echo "</skos:Concept>\n</sioc:topic>\n";
 

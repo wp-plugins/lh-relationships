@@ -1,7 +1,7 @@
 === LH Relationships ===
 Contributors: shawfactor
 Donate link: http://localhero.biz/plugins/lh-relationships/
-Tags: feed, feeds, rdf, localhero, sioc, skos, foaf
+Tags: feed, feeds, rdf, localhero, sioc, skos, schema.org
 Requires at least: 3.0
 Tested up to: 3.2
 Stable tag: trunk
@@ -18,6 +18,12 @@ Once activated the plugin allow uris to be published and relationships to be cre
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+**0.0.6 December 28, 2011**  
+Automatically create namespaces and attributes on activation
+
+**0.0.5 December 27, 2011**  
+Attribute and namespace listsings
 
 **0.0.4 December 20, 2011**  
 Improved menu's
