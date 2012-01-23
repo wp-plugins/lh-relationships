@@ -101,8 +101,6 @@ $lh_sql = "SELECT ID, guid FROM ".$wpdb->prefix."posts where guid = '".$namespac
 
 $results = $wpdb->get_results($lh_sql);
 
-print_r($results);
-
 //$post_id = $results[0]->ID;
 
 if (!$results[0]->guid){
@@ -140,14 +138,11 @@ return $lastid;
 
 $lhrdf_sql = "UPDATE shf_namespace SET PostsId = '".$results[0]->ID."' WHERE prefix = '".$prefix."'";
 
-echo $lhrdf_sql;
 
 $foobar = $wpdb->get_results($lhrdf_sql);
 
 
 $lhrdf_sql = "SELECT b.Id FROM ".$wpdb->prefix."posts a, ".$wpdb->prefix."namespace b WHERE  a.Id = b.PostsId and a.guid ='".$results[0]->guid."'";
-
-echo $lhrdf_sql;
 
 $results = $wpdb->get_results($lhrdf_sql);
 
