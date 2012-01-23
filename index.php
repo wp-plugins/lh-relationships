@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/
 Description: Add RDF relationship support to Wordpress
-Version: 0.07
+Version: 0.08
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -30,6 +30,9 @@ Automatically create namespaces and attributes
 = 0.07 =
 Enable author relationships
 
+= 0.08 =
+Fixed Bugs
+
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
     This program is free software; you can redistribute it and/or modify
@@ -55,6 +58,11 @@ include_once('uri_setup.php');
 include_once('functions.php');
 
 include_once('activate.php');
+
+register_activation_hook(__FILE__, 'lh_relationships_register_activation_tables' );
+
+
+register_activation_hook(__FILE__, 'lh_relationships_register_activation_ontologies' );
 
 
 

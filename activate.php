@@ -2,7 +2,7 @@
 
 
 
-function lh_relationships_register_activation_hook() {
+function lh_relationships_register_activation_tables() {
 
 global $wpdb;
 
@@ -20,6 +20,12 @@ $query = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."statement` ( `Id` bigint(
 
 $results = $wpdb->get_results($query);
 
+}
+
+
+function lh_relationships_register_activation_ontologies() {
+
+
 $foo = LH_relationships_create_namespace_post("RDF NS", "http://www.w3.org/1999/02/22-rdf-syntax-ns#", "rdf", "yes");
 
 $bar = LH_relationships_create_attribute_uri_post($foo, "type");
@@ -28,9 +34,9 @@ $foo = LH_relationships_create_namespace_post("Friend of a friend", "http://xmln
 
 $foo = LH_relationships_create_namespace_post("SIOC ns", "http://rdfs.org/sioc/ns#", "sioc", "no");
 
-$bar = LH_relationships_create_attribute_uri_post($foo, "topic");
-
 $bar = LH_relationships_create_attribute_uri_post($foo, "related_to");
+
+$bar = LH_relationships_create_attribute_uri_post($foo, "topic");
 
 $foo = LH_relationships_create_namespace_post("RDF types ns", "http://www.w3.org/2000/01/rdf-schema#", "rdfs", "no");
 
@@ -73,12 +79,10 @@ $foo = LH_relationships_create_namespace_post("XFN module", "http://vocab.sindic
 $bar = LH_relationships_create_attribute_uri_post($foo, "me");
 
 
-
-
 }
 
 
-register_activation_hook(__FILE__, 'lh_relationships_register_activation_hook' );
+
 
 
 ?>

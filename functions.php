@@ -96,11 +96,14 @@ function LH_relationships_create_namespace_post($namespace_name, $namespace_guid
 
 global $wpdb;
 
-$lh_sql = "SELECT guid FROM ".$wpdb->prefix."posts where guid = '".$namespace_guid."'"; 
+$lh_sql = "SELECT ID, guid FROM ".$wpdb->prefix."posts where guid = '".$namespace_guid."'"; 
 
 
 $results = $wpdb->get_results($lh_sql);
 
+print_r($results);
+
+//$post_id = $results[0]->ID;
 
 if (!$results[0]->guid){
 
@@ -135,9 +138,20 @@ return $lastid;
 
 } else {
 
+$lhrdf_sql = "UPDATE shf_namespace SET PostsId = '".$results[0]->ID."' WHERE prefix = '".$prefix."'";
+
+echo $lhrdf_sql;
+
+$foobar = $wpdb->get_results($lhrdf_sql);
+
+
 $lhrdf_sql = "SELECT b.Id FROM ".$wpdb->prefix."posts a, ".$wpdb->prefix."namespace b WHERE  a.Id = b.PostsId and a.guid ='".$results[0]->guid."'";
 
+echo $lhrdf_sql;
+
 $results = $wpdb->get_results($lhrdf_sql);
+
+print_r($results);
 
 $return = $results[0]->Id;
 
