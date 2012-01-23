@@ -6,7 +6,7 @@ Requires at least: 3.0
 Tested up to: 3.2
 Stable tag: trunk
 
-This plugin allows allows the creation and publishing of triple relationsships in RDF format.
+This plugin allows allows the creation and publishing of triple relationships in RDF format.
 
 == Description ==
 
@@ -18,6 +18,9 @@ Once activated the plugin allow uris to be published and relationships to be cre
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+**0.0.7 January 22, 2012**  
+Automatically create namespaces and attributes on activation
 
 **0.0.6 December 28, 2011**  
 Automatically create namespaces and attributes on activation
