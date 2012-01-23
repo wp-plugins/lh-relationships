@@ -146,8 +146,6 @@ $lhrdf_sql = "SELECT b.Id FROM ".$wpdb->prefix."posts a, ".$wpdb->prefix."namesp
 
 $results = $wpdb->get_results($lhrdf_sql);
 
-print_r($results);
-
 $return = $results[0]->Id;
 
 return $return;
