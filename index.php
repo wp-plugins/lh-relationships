@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/
 Description: Add RDF relationship support to Wordpress
-Version: 0.08
+Version: 0.09
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -33,6 +33,9 @@ Enable author relationships
 = 0.08 =
 Fixed Bugs
 
+= 0.09 =
+Added first widget
+
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
     This program is free software; you can redistribute it and/or modify
@@ -61,10 +64,9 @@ include_once('activate.php');
 
 register_activation_hook(__FILE__, 'lh_relationships_register_activation_tables' );
 
-
 register_activation_hook(__FILE__, 'lh_relationships_register_activation_ontologies' );
 
-
+include_once('the_widgets.php');
 
 function return_rdf($guid){
 
@@ -107,6 +109,39 @@ $results = $wpdb->get_results($lhrdf_sql);
 return $results;
 
 }
+
+
+
+function lh_relationships_return_sparql_triple_by_post_ID($subject, $predicate, $object){
+
+global $wpdb;
+
+$lhrdf_sql = "SELECT b.ID AS subjectid, e.ID as predicateid, f.ID AS objectid FROM ".$wpdb->prefix."statement a, ".$wpdb->prefix."posts b, ".$wpdb->prefix."predicate c, ".$wpdb->prefix."namespace d, ".$wpdb->prefix."posts e, ".$wpdb->prefix."posts f WHERE  a.SubjectId = b.ID AND a.PredicateId = c.Id AND c.AttributeId = e.ID AND c.NamespaceId = d.Id AND a.OjectId = f.ID";
+
+if ($subject){
+
+$lhrdf_sql .= " AND b.guid = '".$subject."'";
+
+}
+
+if ($predicate){
+
+$lhrdf_sql .= " and e.guid = '".$predicate."'";
+
+}
+
+if ($object){
+
+$lhrdf_sql .= " and f.guid = '".$object."'";
+
+}
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+return $results;
+
+}
+
 
 //Add extra namespaces and data to the normal rdf feed
 

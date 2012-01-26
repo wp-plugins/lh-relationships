@@ -19,6 +19,8 @@ Once activated the plugin allow uris to be published and relationships to be cre
 
 == Changelog ==
 
+**0.0.9 January 25, 2012**  
+Added profile widget
 
 **0.0.8 January 23, 2012**  
 Fixed Bug
