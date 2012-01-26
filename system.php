@@ -157,14 +157,16 @@ $results = $wpdb->get_results($sql);
 //print_r($results);
 
 echo "<br/><select id=\"statement_details\" name=\"statement_details\">
-<option value=\"#NONE#\">— Select —</option>";
+<option value=\"#NONE#\">-- Select --</option>";
 
 
 $j = 0;
 
 while ($j < count($results)) {
 
-echo "<option value =\"".$results[$j]->predicateId."\">".$results[$j]->prefix.":".$results[$j]->fragment."</option>";
+echo "<option value =\"".$results[$j]->prefix.":".$results[$j]->fragment."\">".$results[$j]->prefix.":".$results[$j]->fragment."</option>";
+
+
 
 $j++;
 }
@@ -230,6 +232,49 @@ $j++;
 }
 
 add_action('wp_head', 'lh_relationships_add_author_rel_head');
+
+
+function lh_relationships_add_post_statement( $post_id ) {
+
+global $post;
+
+
+
+if ( !current_user_can( 'edit_post', $post_id ) ) {
+
+return false;
+
+
+} else {
+
+
+if ($_POST['statement_details'] != "#NONE#"){
+
+update_post_meta($post->ID, "foobar", "foob00");
+
+$id = $post->ID;
+
+$pieces = explode(":", $_POST['statement_details']);
+
+$prefix = $pieces[0];
+
+$fragment = $pieces[1];
+
+
+//update_post_meta($post->ID, "foobar", $prefix);
+
+lh_relationships_create_rdf_statement($id, $prefix, $fragment, $_POST['OjectId']);
+
+
+}
+
+}
+
+
+}
+
+
+add_action('save_post', 'lh_relationships_add_post_statement');
 
 
 
