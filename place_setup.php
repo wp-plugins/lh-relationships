@@ -24,10 +24,10 @@ function LH_relationships_create_place_post_type() {
         	'show_ui' => true,
         	'capability_type' => 'post',
 		'rewrite' => array(
-			'slug' => 'uri',
+			'slug' => 'place',
 			'with_front' => false
 			),
-		'has_archive' => 'uris',
+		'has_archive' => 'places',
 		'hierarchical' => true,
  		'labels' => $labels,
         	'supports' => array('title', 'editor', 'custom-fields', 'thumbnail')
