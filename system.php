@@ -97,6 +97,8 @@ add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relati
 
 add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "uri", "normal", "low");
 
+add_meta_box("lh_relationships_place_output", "Place Info", "lh_relationships_place_output", "place", "normal", "low");
+
 
 
 }
@@ -105,11 +107,11 @@ function lh_relationships_print_rdf_interface(){
 global $post;
 global $wpdb;
 
-$foo = lh_relationships_return_sparql_triple($post->guid, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://www.geonames.org/ontology#Feature");
+$foo = lh_relationships_return_sparql_triple($post->guid, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://dbpedia.org/ontology/place");
 
 //print_r($foo);
 
-if ($foo[0]->object == "http://www.geonames.org/ontology#Feature"){
+if ($foo[0]->object == "http://dbpedia.org/ontology/place"){
 
 
 lh_relationships_place_output();

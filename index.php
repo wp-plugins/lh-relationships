@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/
 Description: Add RDF relationship support to Wordpress
-Version: 0.10
+Version: 0.11
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -39,6 +39,9 @@ Added first widget
 = 0.10 =
 Added second widget
 
+= 0.11 =
+Bug fixes, places post type
+
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
     This program is free software; you can redistribute it and/or modify
@@ -60,6 +63,8 @@ Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 include_once('system.php');
 
 include_once('uri_setup.php');
+
+include_once('place_setup.php');
 
 include_once('functions.php');
 
@@ -247,94 +252,11 @@ $j++;
 
 
 
-function add_rdf_nodes() {
 
-global $post;
-
-$foo = return_rdf($post->guid);
-
-//echo "here we add";
-
-
-$j = 0;
-
-while ($j < count($foo)) {
-
-echo "<".$foo[$j]->prefix.":".$foo[$j]->fragment." rdf:resource=\"".htmlspecialchars($foo[$j]->object)."\" />";
-
-
-$j++;
-}
-
-
-
-
-}
-
-
-
-
-
-
-function add_rdf_vals() {
-
-global $lhrdfnamespaces;
-
-global $post;
-
-global $wpdb;
-
-$j = 0;
-
-$sql = "SELECT meta_key, meta_value FROM ".$wpdb->prefix."postmeta where post_id = '".$post->ID."' and (meta_key like";
-
-while ($j < count($lhrdfnamespaces)) {
-
-
-if ($j < 1){
-
-$sql .= " '".$lhrdfnamespaces[$j]->prefix.":%'";
-
-} else {
-
-$sql .= " or meta_key like '".$lhrdfnamespaces[$j]->prefix.":%'";
-
-}
-
-
-$j++;
-}
-
-$sql .= ")";
-
-//echo $sql;
-
-$results = $wpdb->get_results($sql);
-
-$j = 0;
-
-while ($j < count($results)) {
-
-if(!isValidURL($results[$j]->meta_value)){
-
-echo "<".$results[$j]->meta_key.">".$results[$j]->meta_value."</".$results[$j]->meta_key.">";
-
-}
-
-$j++;
-
-}
-
-}
 
 add_action( 'rdf_ns', 'add_rdf_namespace', 1);
 
 add_filter('language_attributes', 'add_rdf_namespace');
-
-add_action( 'rdf_item', 'add_rdf_nodes', 1);
-
-add_action( 'rdf_item', 'add_rdf_vals', 1);
-
 
 add_action( 'rss2_item', 'skos_the_category_rdf', 1);
 

@@ -19,6 +19,8 @@ Once activated the plugin allow uris to be published and relationships to be cre
 
 == Changelog ==
 
+**0.1.1 March 04, 2012**  
+Bug fixes, places post type
 
 **0.1.0 January 26, 2012**  
 Added second widget

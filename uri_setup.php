@@ -29,10 +29,9 @@ function LH_relationships_create_uri_post_type() {
 			'slug' => 'uri',
 			'with_front' => false
 			),
-		'has_archive' => 'uris',
 		'hierarchical' => true,
  		'labels' => $labels,
-        	'supports' => array('title', 'editor', 'custom-fields', 'thumbnail')
+        	'supports' => array('title', 'editor', 'author', 'custom-fields', 'thumbnail')
         );
     	register_post_type('uri',$portfolio_args);
 	}

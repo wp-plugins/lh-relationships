@@ -25,7 +25,9 @@ return $last;
 }
 
 
-function LH_relationships_create_attribute_uri_post($namespaceId, $fragment) {
+function LH_relationships_create_attribute_uri_post($namespaceId, $fragment, $urionly) {
+
+
 
 global $wpdb;
 
@@ -80,9 +82,13 @@ $post_id = $results[0]->ID;
 
 }
 
+if (!$urionly){
+
 $lhrdf_sql = "INSERT INTO ".$wpdb->prefix."predicate ( Id, NamespaceId, fragment, AttributeId) VALUES (NULL, '".$namespaceId."', '".$fragment."', '".$post_id."')";
 
 $results = $wpdb->get_results($lhrdf_sql);
+
+}
 
 }
 

@@ -1,5 +1,93 @@
 <?php
 
+function lh_relationships_add_rdf_nodes($subject){
+
+if (!$subject){
+
+global $post;
+
+$subject = $post->guid;
+
+}
+
+$foo = return_rdf($subject);
+
+//echo "here we add";
+
+
+$j = 0;
+
+while ($j < count($foo)) {
+
+echo "<".$foo[$j]->prefix.":".$foo[$j]->fragment." rdf:resource=\"".htmlspecialchars($foo[$j]->object)."\" />";
+
+
+$j++;
+}
+
+
+
+
+}
+
+
+add_action( 'rdf_item', 'lh_relationships_add_rdf_nodes', 1);
+
+function lh_relationships_add_rdf_vals() {
+
+global $lhrdfnamespaces;
+
+global $post;
+
+global $wpdb;
+
+$j = 0;
+
+$sql = "SELECT meta_key, meta_value FROM ".$wpdb->prefix."postmeta where post_id = '".$post->ID."' and (meta_key like";
+
+while ($j < count($lhrdfnamespaces)) {
+
+
+if ($j < 1){
+
+$sql .= " '".$lhrdfnamespaces[$j]->prefix.":%'";
+
+} else {
+
+$sql .= " or meta_key like '".$lhrdfnamespaces[$j]->prefix.":%'";
+
+}
+
+
+$j++;
+}
+
+$sql .= ")";
+
+//echo $sql;
+
+$results = $wpdb->get_results($sql);
+
+$j = 0;
+
+while ($j < count($results)) {
+
+if(!isValidURL($results[$j]->meta_value)){
+
+echo "<".$results[$j]->meta_key.">".$results[$j]->meta_value."</".$results[$j]->meta_key.">";
+
+}
+
+$j++;
+
+}
+
+}
+
+add_action( 'rdf_item', 'lh_relationships_add_rdf_vals', 1);
+
+
+
 function lh_relationships_add_see_also() {
 
 if (!is_single()){

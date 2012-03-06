@@ -64,9 +64,9 @@ $foo = LH_relationships_create_namespace_post("tag module", "http://www.holygoat
 
 $foo = LH_relationships_create_namespace_post("Georss module", "http://www.georss.org/georss", "georss", "no");
 
-$foo = LH_relationships_create_namespace_post("Geonames module", "http://www.geonames.org/ontology#", "gn", "no");
+$foo = LH_relationships_create_namespace_post("Dbpedia ontology module", "http://dbpedia.org/ontology/", "dbp", "no");
 
-$bar = LH_relationships_create_attribute_uri_post($foo, "Feature");
+$bar = LH_relationships_create_attribute_uri_post($foo, "place", "yes");
 
 $foo = LH_relationships_create_namespace_post("World Geodetic System module", "http://www.w3.org/2003/01/geo/wgs84_pos#", "wgs84", "no");
 
@@ -77,6 +77,10 @@ $bar = LH_relationships_create_attribute_uri_post($foo, "long");
 $foo = LH_relationships_create_namespace_post("XFN module", "http://vocab.sindice.com/xfn#", "xfn", "no");
 
 $bar = LH_relationships_create_attribute_uri_post($foo, "me");
+
+$foo = LH_relationships_create_namespace_post("Owl module", "http://www.w3.org/2002/07/owl#", "owl", "no");
+
+$bar = LH_relationships_create_attribute_uri_post($foo, "sameAs");
 
 
 }

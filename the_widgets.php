@@ -62,6 +62,8 @@ global $post;
 
 $triple = lh_relationships_return_sparql_triple_by_post_ID($post->guid, "http://rdfs.org/sioc/ns#related_to");
 
+if ($triple[0]){
+
 $i = 0;
 
 while ($i < count($triple)) {
@@ -80,8 +82,18 @@ $relatedposts = new WP_Query( array( 'post__in' => $postsarray, 'post_type' => a
 
 
 <?php while ($relatedposts->have_posts()) : $relatedposts->the_post(); ?>
-    <li><a href="<?php the_GUID() ?>"><?php the_title(); ?></a></li>
-<?php endwhile; 
+    <li>
+<?php if ( has_post_thumbnail() ) {    ?>
+
+<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" ><?php the_post_thumbnail('thumbnail'); ?></a>
+
+<?php } ?>
+<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+<?php the_excerpt(); ?>
+</li>
+<?php endwhile;
+
+}
 
 }
 
