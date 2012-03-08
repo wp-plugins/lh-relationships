@@ -2,9 +2,20 @@
 
 function lh_relationships_add_rdf_nodes($subject){
 
+global $post;
+//print_r($post);
+
+if ($post->post_type == "place"){
+
+
+
+echo "<rdf:type rdf:resource=\"http://dbpedia.org/ontology/place\"/>";
+
+}
+
 if (!$subject){
 
-global $post;
+
 
 $subject = $post->guid;
 

@@ -19,6 +19,9 @@ Once activated the plugin allow uris to be published and relationships to be cre
 
 == Changelog ==
 
+**0.1.2 March 06, 2012**  
+Dbpedia place linked to post type
+
 **0.1.1 March 04, 2012**  
 Bug fixes, places post type
 
