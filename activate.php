@@ -32,6 +32,8 @@ $bar = LH_relationships_create_attribute_uri_post($foo, "type");
 
 $foo = LH_relationships_create_namespace_post("Friend of a friend", "http://xmlns.com/foaf/0.1/", "foaf", "no"); 
 
+$bar = LH_relationships_create_attribute_uri_post($foo, "primaryTopic");
+
 $foo = LH_relationships_create_namespace_post("SIOC ns", "http://rdfs.org/sioc/ns#", "sioc", "no");
 
 $bar = LH_relationships_create_attribute_uri_post($foo, "related_to");
@@ -77,6 +79,8 @@ $bar = LH_relationships_create_attribute_uri_post($foo, "me");
 $foo = LH_relationships_create_namespace_post("Owl module", "http://www.w3.org/2002/07/owl#", "owl", "no");
 
 $bar = LH_relationships_create_attribute_uri_post($foo, "sameAs");
+
+$foo = LH_relationships_create_namespace_post("Open Archives module", "http://www.openarchives.org/ore/terms/", "ore", "no");
 
 
 }

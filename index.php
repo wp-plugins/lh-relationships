@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/
 Description: Add RDF relationship support to Wordpress
-Version: 0.11
+Version: 0.13
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -41,6 +41,12 @@ Added second widget
 
 = 0.11 =
 Bug fixes, places post type
+
+= 0.12 =
+Dbpedia place linked to post type
+
+= 0.13 =
+Open Archives module and FOAF primaryTopic attribute
 
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
@@ -205,6 +211,12 @@ if (!$foo[0]->Id){
 $sql = "INSERT INTO ".$wpdb->prefix."statement ( Id , SubjectId , PredicateId , OjectId ) VALUES ( '', '".$subject."', '".$results[0]->predicateId."', '".$object."')";
 
 $results = $wpdb->get_results($sql);
+
+if ($prefix == "foaf" && $fragment == "primaryTopic"){
+
+lh_relationships_create_rdf_statement($subject,"sioc","topic",$object);
+
+}
 
 
 }
