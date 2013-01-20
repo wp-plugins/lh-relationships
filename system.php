@@ -93,18 +93,17 @@ add_meta_box("lh_relationships_statement_details", "RDF post relationships", "lh
 
 add_meta_box("lh_relationships_statement_details", "RDF post relationships", "lh_relationships_print_rdf_relationships", "page", "normal", "low");
 
-add_meta_box("lh_relationships_statement_details", "RDF post relationships", "lh_relationships_print_rdf_relationships", "uri", "normal", "low");
+add_meta_box("lh_relationships_statement_details", "RDF post relationships", "lh_relationships_print_rdf_relationships", "lh-uri", "normal", "low");
 
 add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "post", "normal", "low");
 
 
 add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "page", "normal", "low");
 
-add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "uri", "normal", "low");
+add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "lh-uri", "normal", "low");
 
 
 
-add_meta_box("lh_relationships_place_output", "Place Info", "lh_relationships_place_output", "place", "normal", "low");
 
 
 

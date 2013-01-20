@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: LH Relationships
-Plugin URI: http://localhero.biz/
+Plugin URI: http://localhero.biz/plugins/lh-relationships/
 Description: Add RDF relationship support to Wordpress
-Version: 0.13
+Version: 0.14
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -48,6 +48,9 @@ Dbpedia place linked to post type
 = 0.13 =
 Open Archives module and FOAF primaryTopic attribute
 
+= 0.14 =
+Major rewrite of codebase
+
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
     This program is free software; you can redistribute it and/or modify
@@ -70,7 +73,7 @@ include_once('system.php');
 
 include_once('uri_setup.php');
 
-include_once('place_setup.php');
+//include_once('place_setup.php');
 
 include_once('functions.php');
 
@@ -278,6 +281,48 @@ include_once('enhance_feed.php');
 
 include_once('user_relationships.php');
 
+
+function lh_ogp_return_like_widget2($atts){
+$foo = "poobar";
+
+
+return $foo;  
+
+} 
+
+add_shortcode( 'lh_ogp_like_widget2', 'lh_ogp_return_like_widget2' );
+
+
+
+
+
+function lh_relationships_print_article_map_scripts(){
+
+?>
+
+<script type="text/javascript" src="<?php echo plugins_url( '' , __FILE__ );  ?>/scripts/place_map2.js"> 
+</script>
+
+
+<?php
+
+}
+
+
+function lh_relationships_article_map_short_func( $atts ) {
+	extract( shortcode_atts( array(
+		'foo' => 'something',
+		'bar' => 'something else',
+	), $atts ) );
+
+add_action('wp_footer', 'lh_relationships_print_article_map_scripts');
+
+
+return "<div id=\"map_canvas\"></div>";
+
+}
+
+add_shortcode( 'lh_relationships_article_map', 'lh_relationships_article_map_short_func' );
 
 
 

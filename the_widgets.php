@@ -56,7 +56,7 @@ add_action("plugins_loaded", "lh_relationships_author_widget_init");
 
 
 
-function lh_relationships_print_related_post_widget() {
+function lh_relationships_print_related_post_widget($atts){
 
 global $post;
 
@@ -75,6 +75,8 @@ $postsarray[$i] = $triple[$i]->objectid;
 }
 
 $relatedposts = new WP_Query( array( 'post__in' => $postsarray, 'post_type' => array( 'post', 'page', 'uri' )) );
+
+ob_start();
 
 ?>
 
@@ -95,26 +97,19 @@ $relatedposts = new WP_Query( array( 'post__in' => $postsarray, 'post_type' => a
 
 }
 
-}
+$foo = ob_get_contents();
 
+ob_end_clean();
 
-
-function lh_relationships_related_post_widget($args) {
-if (is_singular()){
-  extract($args);
-  echo $before_widget;
-  lh_relationships_print_related_post_widget();
-  echo $after_widget;
-}
-}
- 
-
-function lh_relationships_related_post_widget_init(){
-
-register_sidebar_widget(__('LH Relationships Related Posts'), 'lh_relationships_related_post_widget');
+return $foo;
 
 }
 
-add_action("plugins_loaded", "lh_relationships_related_post_widget_init");
+
+
+
+
+
+
 
 ?>

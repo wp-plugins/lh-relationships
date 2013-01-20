@@ -1,8 +1,9 @@
 <?php
 
-add_action('init', 'LH_relationships_create_uri_post_type');
+add_action('init', 'lh_relationships_create_uri_post_type');
 
-function LH_relationships_create_uri_post_type() {
+
+function lh_relationships_create_uri_post_type() {
 
   $labels = array(
     'name' => _x('Uris', 'post type general name'),
@@ -31,9 +32,9 @@ function LH_relationships_create_uri_post_type() {
 			),
 		'hierarchical' => true,
  		'labels' => $labels,
-        	'supports' => array('title', 'editor', 'author', 'custom-fields', 'thumbnail')
+        	'supports' => array('title', 'editor', 'author', 'custom-fields', 'thumbnail', 'page-attributes')
         );
-    	register_post_type('uri',$portfolio_args);
+    	register_post_type('lh-uri',$portfolio_args);
 	}
 
 
@@ -41,14 +42,15 @@ function LH_relationships_create_uri_post_type() {
 
 
 
-function LH_relationships_add_guid_meta_editor(){
+function lh_relationships_add_guid_meta_editor(){
 
-add_meta_box("Edit_GUID", "Edit GUID", "lh_relationships_edit_guid", "uri", "advanced", "low");
+add_meta_box("Edit_GUID", "Edit GUID", "lh_relationships_edit_guid", "lh-uri", "advanced", "low");
 
 }
 
 
-add_action("admin_init", "LH_relationships_add_guid_meta_editor");
+add_action("admin_init", "lh_relationships_add_guid_meta_editor");
+
 add_action('save_post', 'LH_relationships_update_post_GUID');
 
 function lh_relationships_edit_guid(){
@@ -79,5 +81,7 @@ $wpdb->query($query);
 }
 
 }
+
+
 
 ?>
