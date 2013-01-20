@@ -131,7 +131,7 @@ function lh_relationships_print_rdf_relationships(){
 global $post;
 global $wpdb;
 
-$results = return_rdf($post->guid);
+$results = lh_relationships_return_rdf($post->guid);
 
 $j = 0;
 

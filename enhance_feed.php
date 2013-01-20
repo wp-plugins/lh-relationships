@@ -3,27 +3,16 @@
 function lh_relationships_add_rdf_nodes($subject){
 
 global $post;
-//print_r($post);
-
-if ($post->post_type == "place"){
-
-
-
-echo "<rdf:type rdf:resource=\"http://dbpedia.org/ontology/place\"/>";
-
-}
 
 if (!$subject){
-
-
 
 $subject = $post->guid;
 
 }
 
-$foo = return_rdf($subject);
+$foo = lh_relationships_return_rdf($subject);
 
-//echo "here we add";
+
 
 
 $j = 0;
@@ -44,9 +33,12 @@ $j++;
 
 add_action( 'rdf_item', 'lh_relationships_add_rdf_nodes', 1);
 
+
+
 function lh_relationships_add_rdf_vals() {
 
-global $lhrdfnamespaces;
+
+$lhrdfnamespaces = lh_relationships_return_compliant_namespace();
 
 global $post;
 
@@ -75,15 +67,13 @@ $j++;
 
 $sql .= ")";
 
-//echo $sql;
-
 $results = $wpdb->get_results($sql);
 
 $j = 0;
 
 while ($j < count($results)) {
 
-if(!isValidURL($results[$j]->meta_value)){
+if(!lh_relationships_isvaliduRL($results[$j]->meta_value)){
 
 echo "<".$results[$j]->meta_key.">".$results[$j]->meta_value."</".$results[$j]->meta_key.">";
 

@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/plugins/lh-relationships/
 Description: Add RDF relationship support to Wordpress
-Version: 0.14
+Version: 0.15
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -51,6 +51,9 @@ Open Archives module and FOAF primaryTopic attribute
 = 0.14 =
 Major rewrite of codebase
 
+= 0.15 =
+Function rewrites
+
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
     This program is free software; you can redistribute it and/or modify
@@ -86,7 +89,7 @@ include_once('menu_items.php');
 
 include_once('the_widgets.php');
 
-function return_rdf($guid){
+function lh_relationships_return_rdf($guid){
 
 global $wpdb;
 
@@ -130,7 +133,7 @@ return $results;
 
 
 
-function lh_relationships_return_sparql_triple_by_post_ID($subject, $predicate, $object){
+function lh_relationships_return_sparql_triple_by_post_ID($subject, $predicate = NULL, $object = NULL){
 
 global $wpdb;
 
@@ -161,6 +164,25 @@ return $results;
 }
 
 
+function lh_relationships_return_unique_sparql_object_by_post_ID($subject){
+
+global $wpdb;
+
+$lhrdf_sql = "SELECT DISTINCT f.ID AS objectid FROM ".$wpdb->prefix."statement a, ".$wpdb->prefix."posts b, ".$wpdb->prefix."predicate c, ".$wpdb->prefix."namespace d, ".$wpdb->prefix."posts e, ".$wpdb->prefix."posts f WHERE  a.SubjectId = b.ID AND a.PredicateId = c.Id AND c.AttributeId = e.ID AND c.NamespaceId = d.Id AND a.OjectId = f.ID";
+
+
+$lhrdf_sql .= " AND b.guid = '".$subject."'";
+
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+return $results;
+
+}
+
+
+
+
 //Add extra namespaces and data to the normal rdf feed
 
 function return_namespace(){
@@ -180,7 +202,7 @@ return $results;
 //Add extra namespaces and data to the lh-relationship compliant rdf feeds
 
 
-function LH_relationships_return_compliant_namespace(){
+function lh_relationships_return_compliant_namespace(){
 
 global $wpdb;
 
@@ -251,7 +273,7 @@ function LH_relationships_add_compliant_rdf_namespace() {
 
 
 
-$lhrdfnamespaces = LH_relationships_return_compliant_namespace();
+$lhrdfnamespaces = lh_relationships_return_compliant_namespace();
 
 $j = 0;
 
