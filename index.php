@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/plugins/lh-relationships/
 Description: Add RDF relationship support to Wordpress
-Version: 0.15
+Version: 0.16
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -53,6 +53,9 @@ Major rewrite of codebase
 
 = 0.15 =
 Function rewrites
+
+= 0.16 =
+Error fix
 
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
@@ -340,7 +343,7 @@ function lh_relationships_article_map_short_func( $atts ) {
 add_action('wp_footer', 'lh_relationships_print_article_map_scripts');
 
 
-return "<div id=\"map_canvas\"></div>";
+return "<div id=\"map_canvas\" data-lh_tools_url=\"".plugins_url()."/lh-tools/\"></div>";
 
 }
 

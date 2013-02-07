@@ -11,7 +11,7 @@ echo "<h3>User Relationships</h3>";
 
 $guid = get_author_posts_url($user->data->ID);
 
-$results = return_rdf($guid);
+$results = lh_relationships_return_rdf($guid);
 
 $j = 0;
 
