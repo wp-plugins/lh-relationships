@@ -8,7 +8,7 @@ wp_die( __('You do not have sufficient permissions to access this page.') );
 
 }
 
-$hidden_field_name = 'LH_relationships_submit_hidden';
+$hidden_field_name = 'lh_relationships_submit_hidden';
 
 echo "<h2>" . __( 'Add Predicate', 'menu-test' ) . "</h2>";
 
@@ -22,7 +22,7 @@ global $wpdb;
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 
 <p><?php _e("Namespace of attribute", 'menu-test' ); ?> 
-<select name="LH_relationships_NamespaceId">
+<select name="lh_relationships_NamespaceId">
 
 <?php
 
@@ -49,7 +49,7 @@ $i++;
 </p>
 
 <p><?php _e("Fragment:", 'menu-test' ); ?> 
-<input type="text" name="LH_relationships_fragment" value="" size="64">
+<input type="text" name="lh_relationships_fragment" value="" size="64">
 </p>
 
 <p class="submit">
@@ -65,7 +65,7 @@ $i++;
 
 if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
 
-$results = LH_relationships_create_attribute_uri_post($_POST[LH_relationships_NamespaceId], $_POST[LH_relationships_fragment]);
+$results = lh_relationships_create_attribute_uri_post($_POST[lh_relationships_NamespaceId], $_POST[lh_relationships_fragment]);
 
 }
 
@@ -130,7 +130,7 @@ wp_die( __('You do not have sufficient permissions to access this page.') );
 
 }
 
-$hidden_field_name = 'LH_relationships_submit_hidden';
+$hidden_field_name = 'lh_relationships_submit_hidden';
 
 echo "<h2>" . __( 'Add Namespace', 'menu-test' ) . "</h2>";
 
@@ -142,15 +142,15 @@ echo "<h2>" . __( 'Add Namespace', 'menu-test' ) . "</h2>";
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 
 <p><?php _e("Post ID:", 'menu-test' ); ?> 
-<input type="text" name="LH_relationships_PostsId" value="" size="20">
+<input type="text" name="lh_relationships_PostsId" value="" size="20">
 </p>
 
 <p><?php _e("Prefix:", 'menu-test' ); ?> 
-<input type="text" name="LH_relationships_prefix" value="" size="20">
+<input type="text" name="lh_relationships_prefix" value="" size="20">
 </p>
 
 <p><?php _e("Is this a WordPress native namespace", 'menu-test' ); ?> 
-<select name="LH_relationships_wp_ns">
+<select name="lh_relationships_wp_ns">
 <option value="yes">Yes</option>
 <option value="no" selected="yes">No</option>
 </select>
@@ -170,7 +170,7 @@ global $wpdb;
 
 if( isset($_POST[ $hidden_field_name ]) && $_POST[ $hidden_field_name ] == 'Y' ) {
 
-$lhrdf_sql = "INSERT INTO ".$wpdb->prefix."namespace ( Id , PostsId , prefix , wp_ns ) VALUES ( NULL , '".$_POST[LH_relationships_PostsId]."', '".$_POST[LH_relationships_prefix]."', '".$_POST[LH_relationships_wp_ns]."' )";
+$lhrdf_sql = "INSERT INTO ".$wpdb->prefix."namespace ( Id , PostsId , prefix , wp_ns ) VALUES ( NULL , '".$_POST[lh_relationships_PostsId]."', '".$_POST[lh_relationships_prefix]."', '".$_POST[lh_relationships_wp_ns]."' )";
 
 echo $lhrdf_sql;
 
@@ -229,9 +229,9 @@ echo "</table>";
 
 function lh_relationships_plugin_menus() {
 
-add_submenu_page( 'edit.php?post_type=uri', 'LH Relationships Manage Namespaces', 'Namespaces', 'manage_options', 'LH_relationships_namespace-identifier', 'lh_relationships_namespace_options');
+add_submenu_page( 'edit.php?post_type=lh-uri', 'LH Relationships Manage Namespaces', 'Namespaces', 'manage_options', 'lh_relationships_namespace-identifier', 'lh_relationships_namespace_options');
 
-add_submenu_page( 'edit.php?post_type=uri', 'LH Relationships Manage Predicates', 'Predicates', 'manage_options', 'LH_relationships_predicate-identifier', 'lh_relationships_predicate_options');
+add_submenu_page( 'edit.php?post_type=lh-uri', 'LH Relationships Manage Predicates', 'Predicates', 'manage_options', 'lh_relationships_predicate-identifier', 'lh_relationships_predicate_options');
 
 }
 

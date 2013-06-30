@@ -19,6 +19,9 @@ Once activated the plugin allow uris to be published and relationships to be cre
 
 == Changelog ==
 
+**0.1.6 June 29, 2013**  
+General cleanup
+
 **0.1.5 January 30, 2013**  
 Error fix
 

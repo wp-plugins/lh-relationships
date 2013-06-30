@@ -97,7 +97,6 @@ add_meta_box("lh_relationships_statement_details", "RDF post relationships", "lh
 
 add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "post", "normal", "low");
 
-
 add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "page", "normal", "low");
 
 add_meta_box("lh_relationships_post_interface", "RDF post interface", "lh_relationships_print_rdf_interface", "lh-uri", "normal", "low");
@@ -113,9 +112,8 @@ function lh_relationships_print_rdf_interface(){
 global $post;
 global $wpdb;
 
-$foo = lh_relationships_return_sparql_triple($post->guid, "http://www.w3.org/1999/02/22-rdf-syntax-ns#type", "http://dbpedia.org/ontology/place");
+$foo = lh_relationships_return_rdf_by_id($post->ID);
 
-//print_r($foo);
 
 if ($foo[0]->object == "http://dbpedia.org/ontology/place"){
 
@@ -131,7 +129,7 @@ function lh_relationships_print_rdf_relationships(){
 global $post;
 global $wpdb;
 
-$results = lh_relationships_return_rdf($post->guid);
+$results = lh_relationships_return_rdf_by_id($post->ID);
 
 $j = 0;
 
@@ -191,8 +189,6 @@ echo "</select><input name=\"OjectId\" length=\"8\" id=\"OjectId\" />";
 
 function lh_relationships_update_place(){
 global $post;
-
-//print_r($_POST);
 
 if ($_POST["wgs84:lat"]){
 if ($_POST["wgs84:long"]){

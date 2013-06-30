@@ -1,7 +1,7 @@
 <?php
 
 
-function LH_relationships_create_attribute_guid($namespace_guid, $fragment) {
+function lh_relationships_create_attribute_guid($namespace_guid, $fragment) {
 
 $str = $namespace_guid;
 $last = $str[strlen($str)-1];
@@ -25,7 +25,7 @@ return $last;
 }
 
 
-function LH_relationships_create_attribute_uri_post($namespaceId, $fragment, $urionly) {
+function lh_relationships_create_attribute_uri_post($namespaceId, $fragment, $urionly=null) {
 
 
 
@@ -41,7 +41,7 @@ $parent = $results[0]->ID;
 
 if ($results[0]->guid){
 
-$post_guid = LH_relationships_create_attribute_guid($results[0]->guid, $fragment); 
+$post_guid = lh_relationships_create_attribute_guid($results[0]->guid, $fragment); 
 
 $lhrdf_sql = "SELECT ID FROM ".$wpdb->prefix."posts where guid = '".$post_guid."'";
 
@@ -98,7 +98,7 @@ $results = $wpdb->get_results($lhrdf_sql);
 
 
 
-function LH_relationships_create_namespace_post($namespace_name, $namespace_guid, $prefix, $wp_ns) {
+function lh_relationships_create_namespace_post($namespace_name, $namespace_guid, $prefix, $wp_ns) {
 
 global $wpdb;
 
@@ -161,7 +161,7 @@ return $return;
 }
 
 
-function LH_relationships_create_plain_uri_post($uri_name, $uri_guid) {
+function lh_relationships_create_plain_uri_post($uri_name, $uri_guid) {
 
 global $wpdb;
 
@@ -206,7 +206,7 @@ return $results[0]->ID;
 
 
 
-function LH_relationships_isValidURL($url){
+function lh_relationships_isValidURL($url){
 return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url);
 }
 

@@ -83,7 +83,7 @@ if ($_POST['statement_details'] != "#NONE#"){
 
 $uri_guid = get_author_posts_url($user_id);
 
-$id = LH_relationships_create_plain_uri_post("foo", $uri_guid);
+$id = lh_relationships_create_plain_uri_post("foo", $uri_guid);
 
 $pieces = explode(":", $_POST['statement_details']);
 
@@ -99,7 +99,6 @@ lh_relationships_create_rdf_statement($id, $prefix, $fragment, $_POST['OjectId']
 
 }
 }
-
 
 
 

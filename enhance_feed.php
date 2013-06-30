@@ -19,7 +19,7 @@ $j = 0;
 
 while ($j < count($foo)) {
 
-echo "<".$foo[$j]->prefix.":".$foo[$j]->fragment." rdf:resource=\"".htmlspecialchars($foo[$j]->object)."\" />";
+echo "<".$foo[$j]->prefix.":".$foo[$j]->fragment." rdf:resource=\"".htmlspecialchars($foo[$j]->object)."\" />\n";
 
 
 $j++;
@@ -156,26 +156,6 @@ function lh_relationships_the_taxonomy_to_rdf() {
 
 global $post;
 	
-$categories = get_the_category();
-
-$j = 0;
-
-while ($j < count($categories)) {
-
-
-echo "\t\t<sioc:topic>\n<skos:Concept rdf:about=\"";
-
-echo get_category_link($categories[$j]->cat_ID);
-
-echo"\">";
-
-echo "<skos:prefLabel xml:lang=\"en\">".$categories[$j]->category_nicename."</skos:prefLabel>";
-
-echo "</skos:Concept>\n</sioc:topic>\n";
-
-$j++;
-}
-
 $tags = get_the_tags();
 
 if (is_array($tags)){
@@ -238,6 +218,6 @@ $j++;
 
 }
 
-add_action( 'rdf_item', 'lh_relationships_the_taxonomy_to_rdf', 1);
+//add_action( 'rdf_item', 'lh_relationships_the_taxonomy_to_rdf', 1);
 
 ?>

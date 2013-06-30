@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/plugins/lh-relationships/
 Description: Add RDF relationship support to Wordpress
-Version: 0.16
+Version: 0.17
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -57,6 +57,9 @@ Function rewrites
 = 0.16 =
 Error fix
 
+= 0.17 =
+Error fix
+
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
     This program is free software; you can redistribute it and/or modify
@@ -79,14 +82,14 @@ include_once('system.php');
 
 include_once('uri_setup.php');
 
-//include_once('place_setup.php');
-
 include_once('functions.php');
 
 include_once('activate.php');
+
 register_activation_hook(__FILE__, 'lh_relationships_register_activation_tables' );
 
 register_activation_hook(__FILE__, 'lh_relationships_register_activation_ontologies' );
+
 
 include_once('menu_items.php');
 
@@ -97,6 +100,20 @@ function lh_relationships_return_rdf($guid){
 global $wpdb;
 
 $lhrdf_sql = "SELECT b.guid AS subject, e.guid as predicate, d.prefix AS prefix, c.fragment AS fragment, f.guid AS object FROM ".$wpdb->prefix."statement a, ".$wpdb->prefix."posts b, ".$wpdb->prefix."predicate c, ".$wpdb->prefix."namespace d, ".$wpdb->prefix."posts e, ".$wpdb->prefix."posts f WHERE  a.SubjectId = b.ID AND a.PredicateId = c.Id AND c.AttributeId = e.ID AND c.NamespaceId = d.Id AND a.OjectId = f.ID AND b.guid = '".$guid."'";
+
+
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+return $results;
+
+}
+
+function lh_relationships_return_rdf_by_id($id){
+
+global $wpdb;
+
+$lhrdf_sql = "SELECT b.guid AS subject, e.guid as predicate, d.prefix AS prefix, c.fragment AS fragment, f.guid AS object FROM ".$wpdb->prefix."statement a, ".$wpdb->prefix."posts b, ".$wpdb->prefix."predicate c, ".$wpdb->prefix."namespace d, ".$wpdb->prefix."posts e, ".$wpdb->prefix."posts f WHERE  a.SubjectId = b.ID AND a.PredicateId = c.Id AND c.AttributeId = e.ID AND c.NamespaceId = d.Id AND a.OjectId = f.ID AND b.ID = '".$id."'";
 
 $results = $wpdb->get_results($lhrdf_sql);
 
@@ -272,7 +289,7 @@ $j++;
 
 }
 
-function LH_relationships_add_compliant_rdf_namespace() {
+function lh_relationships_add_compliant_rdf_namespace() {
 
 
 
@@ -323,6 +340,8 @@ add_shortcode( 'lh_ogp_like_widget2', 'lh_ogp_return_like_widget2' );
 
 function lh_relationships_print_article_map_scripts(){
 
+
+
 ?>
 
 <script type="text/javascript" src="<?php echo plugins_url( '' , __FILE__ );  ?>/scripts/place_map2.js"> 
@@ -335,6 +354,8 @@ function lh_relationships_print_article_map_scripts(){
 
 
 function lh_relationships_article_map_short_func( $atts ) {
+
+if (is_singular()){
 	extract( shortcode_atts( array(
 		'foo' => 'something',
 		'bar' => 'something else',
@@ -344,6 +365,8 @@ add_action('wp_footer', 'lh_relationships_print_article_map_scripts');
 
 
 return "<div id=\"map_canvas\" data-lh_tools_url=\"".plugins_url()."/lh-tools/\"></div>";
+
+}
 
 }
 
