@@ -338,41 +338,4 @@ add_shortcode( 'lh_ogp_like_widget2', 'lh_ogp_return_like_widget2' );
 
 
 
-function lh_relationships_print_article_map_scripts(){
-
-
-
-?>
-
-<script type="text/javascript" src="<?php echo plugins_url( '' , __FILE__ );  ?>/scripts/place_map2.js"> 
-</script>
-
-
-<?php
-
-}
-
-
-function lh_relationships_article_map_short_func( $atts ) {
-
-if (is_singular()){
-	extract( shortcode_atts( array(
-		'foo' => 'something',
-		'bar' => 'something else',
-	), $atts ) );
-
-add_action('wp_footer', 'lh_relationships_print_article_map_scripts');
-
-
-return "<div id=\"map_canvas\" data-lh_tools_url=\"".plugins_url()."/lh-tools/\"></div>";
-
-}
-
-}
-
-add_shortcode( 'lh_relationships_article_map', 'lh_relationships_article_map_short_func' );
-
-
-
-
 ?>
