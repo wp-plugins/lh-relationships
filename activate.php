@@ -85,6 +85,11 @@ $bar = lh_relationships_create_attribute_uri_post($foo, "sameAs");
 
 $foo = lh_relationships_create_namespace_post("Open Archives module", "http://www.openarchives.org/ore/terms/", "ore", "no");
 
+$foo = lh_relationships_create_namespace_post("Event Module", "http://purl.org/NET/c4dm/event.owl#", "event", "no");
+
+$bar = lh_relationships_create_attribute_uri_post($foo, "Event");
+
+
 
 }
 

@@ -19,6 +19,12 @@ Once activated the plugin allow uris to be published and relationships to be cre
 
 == Changelog ==
 
+**0.1.8 July 16, 2013**  
+Machine tag support
+
+**0.1.7 June 29, 2013**  
+General cleanup
+
 **0.1.6 June 29, 2013**  
 General cleanup
 

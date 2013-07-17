@@ -65,7 +65,7 @@ $new_post = array(
 
 'post_author' => $user_ID,  
 
-'post_type' => 'uri'
+'post_type' => 'lh-uri'
 );  
 
 $post_id = wp_insert_post($new_post);
@@ -127,7 +127,7 @@ $new_post = array(
 
 'post_author' => $user_ID,  
 
-'post_type' => 'uri'
+'post_type' => 'lh-uri'
 );  
 
 $post_id = wp_insert_post($new_post);
