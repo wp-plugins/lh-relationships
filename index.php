@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/plugins/lh-relationships/
 Description: Add RDF relationship support to Wordpress
-Version: 0.18
+Version: 0.19
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -62,6 +62,9 @@ Error fix
 
 = 0.18 =
 Machine Tag support
+
+= 0.19 =
+Fixed HTML namespacing
 
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 
@@ -211,7 +214,7 @@ return $results;
 
 //Add extra namespaces and data to the normal rdf feed
 
-function return_namespace(){
+function lh_relationships_return_namespace(){
 
 global $wpdb;
 
@@ -279,9 +282,9 @@ lh_relationships_create_rdf_statement($subject,"sioc","topic",$object);
 
 
 
-function add_rdf_namespace() {
+function lh_relationships_add_rdf_namespace() {
 
-$lhrdfnamespaces = return_namespace();
+$lhrdfnamespaces = lh_relationships_return_namespace();
 
 $j = 0;
 
@@ -313,32 +316,38 @@ $j++;
 
 }
 
+add_action( 'rdf_ns', 'lh_relationships_add_rdf_namespace', 1);
 
 
 
+function lh_relationships_add_rdf_namespace_to_html($attr) {
 
-add_action( 'rdf_ns', 'add_rdf_namespace', 1);
+$lhrdfnamespaces = lh_relationships_return_namespace();
 
-add_filter('language_attributes', 'add_rdf_namespace');
+$j = 0;
 
-add_action( 'rss2_item', 'skos_the_category_rdf', 1);
+while ($j < count($lhrdfnamespaces)) {
+
+$attr .= "\n xmlns:".$lhrdfnamespaces[$j]->prefix."=\"".$lhrdfnamespaces[$j]->namespace."\"";
+
+$j++;
+
+}
+
+return $attr;
+
+
+}
+
+
+add_filter('language_attributes', 'lh_relationships_add_rdf_namespace_to_html');
+
 
 
 include_once('enhance_feed.php');
 
 
 include_once('user_relationships.php');
-
-
-function lh_ogp_return_like_widget2($atts){
-$foo = "poobar";
-
-
-return $foo;  
-
-} 
-
-add_shortcode( 'lh_ogp_like_widget2', 'lh_ogp_return_like_widget2' );
 
 
 

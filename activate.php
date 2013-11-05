@@ -14,7 +14,7 @@ $query = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix."predicate (`Id` bigint(20)
 
 $results = $wpdb->get_results($query);
 
-$query = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."statement` ( `Id` bigint(20) unsigned NOT NULL auto_increment, `SubjectId` bigint(20) unsigned NOT NULL, `PredicateId` bigint(20) unsigned NOT NULL, `OjectId` bigint(20) unsigned NOT NULL, PRIMARY KEY  (`Id`)) DEFAULT CHARSET=utf8";
+$query = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."statement` ( `Id` bigint(20) unsigned NOT NULL auto_increment, `SubjectId` bigint(20) unsigned NOT NULL, `PredicateId` bigint(20) unsigned NOT NULL, `OjectId` bigint(20) unsigned NOT NULL, PRIMARY KEY  (`Id`), UNIQUE KEY `SubjectId` (`SubjectId`,`PredicateId`,`OjectId`)) DEFAULT CHARSET=utf8";
 
 
 $results = $wpdb->get_results($query);
@@ -88,6 +88,13 @@ $foo = lh_relationships_create_namespace_post("Open Archives module", "http://ww
 $foo = lh_relationships_create_namespace_post("Event Module", "http://purl.org/NET/c4dm/event.owl#", "event", "no");
 
 $bar = lh_relationships_create_attribute_uri_post($foo, "Event");
+
+$foo = lh_relationships_create_namespace_post("Vocabulary of Interlinked Datasets", "http://rdfs.org/ns/void#", "void", "no");
+
+$bar = lh_relationships_create_attribute_uri_post($foo, "Dataset");
+
+$foo = lh_relationships_create_namespace_post("Semantic Web Crawling: Sitemap Extension", "http://sw.deri.org/2007/07/sitemapextension/scschema.xsd", "sc", "no");
+
 
 
 
