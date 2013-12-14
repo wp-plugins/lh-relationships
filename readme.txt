@@ -3,7 +3,7 @@ Contributors: shawfactor
 Donate link: http://localhero.biz/plugins/lh-relationships/
 Tags: feed, feeds, rdf, localhero, sioc, skos, schema.org
 Requires at least: 3.0
-Tested up to: 3.7
+Tested up to: 3.8
 Stable tag: trunk
 
 This plugin allows allows the creation and publishing of triple relationships in RDF format.
@@ -24,6 +24,9 @@ For detailed information on the plugin, what it does, and what it can be used to
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+
+**0.2.0 December 10, 2013**  
+Added events handler
 
 **0.1.9 October 29, 2013**  
 Fixed HTMl namespacing

@@ -3,7 +3,7 @@
 Plugin Name: LH Relationships
 Plugin URI: http://localhero.biz/plugins/lh-relationships/
 Description: Add RDF relationship support to Wordpress
-Version: 0.19
+Version: 0.20
 Author: Peter Shaw
 Author URI: http://shawfactor.com/
 
@@ -65,6 +65,9 @@ Machine Tag support
 
 = 0.19 =
 Fixed HTML namespacing
+
+= 0.20 =
+Add events handler
 
 Copyright 2011  Peter Shaw  (email : pete@localhero.biz)
 

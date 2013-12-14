@@ -2,7 +2,7 @@
 
 function lh_relationships_delete_machine_tag($postid, $taxonomy){
 
-echo "delete machine tag";
+echo "start delete machine tag ".$taxonomy."\n";
 
 $posttags = get_the_tags($postid);
 
@@ -12,7 +12,9 @@ if ($posttags) {
 
 foreach($posttags as $tag) {
 
-if ($tag->name != $taxonomy){
+echo $tag->slug." ".$tag->name."\n";
+
+if ($tag->slug != $taxonomy){
 
 array_push($stack,  $tag->name);
 
@@ -33,6 +35,35 @@ wp_update_post( $post );
 }
 
 
+function lh_relationships_machine_tags_add_relationship($subjectid, $predicateid, $objectid){
+
+global $wpdb;
+
+$sql = "SELECT Id FROM ".$wpdb->prefix."statement where SubjectId = '".$subjectid."' and PredicateId = '".$predicateid."' and OjectId = '".$objectid."'";
+
+echo $sql;
+
+$results = $wpdb->get_results($sql);
+
+
+if (!$results[0]->Id){
+
+
+$sql = "INSERT INTO ".$wpdb->prefix."statement ( Id , SubjectId , PredicateId , OjectId ) VALUES ( '', '".$subjectid."', '".$predicateid."', '".$objectid."')";
+
+echo $sql;
+
+$results = $wpdb->get_results($sql);
+
+} else {
+
+
+echo "relationship already exists";
+
+}
+
+
+}
 
 
 
@@ -40,7 +71,7 @@ function lh_relationships_run_machine_tags(){
 
 global $wpdb;
 
-$query = "SELECT  ".$wpdb->prefix."terms.name, ".$wpdb->prefix."terms.slug FROM ".$wpdb->prefix."terms WHERE ".$wpdb->prefix."terms.name LIKE '%:%=\"%\"'";
+$query = "SELECT  ".$wpdb->prefix."terms.name, ".$wpdb->prefix."terms.slug FROM ".$wpdb->prefix."terms WHERE ".$wpdb->prefix."terms.name LIKE '%:%=%'";
 
 echo $query;
 
@@ -81,6 +112,22 @@ $myquery['post_status'] = array('publish', 'future', 'private', 'inherit');
 
 $postinfo = query_posts($myquery);
 
+if (!$postinfo[0]->ID){
+
+echo "no tagged posts";
+
+$bar = get_term_by( "slug", $machinetags[0], "post_tag");
+
+print_r($bar);
+
+if (wp_delete_term( $bar->term_id , "post_tag")){
+
+echo "term deleted";
+
+}
+
+} else {
+
 $subjectid = $postinfo[0]->ID;
 
 echo "the subjectid is ".$subjectid;
@@ -91,7 +138,7 @@ print_r($posttags);
 
 foreach( $posttags as $posttag){
 
-if (strpos($posttag->name,'="') !== false) {
+if (strpos($posttag->name,'=') !== false) {
 
 if (strpos($posttag->name,':') !== false) {
 
@@ -106,7 +153,7 @@ $machinetagname = $posttag->name;
 
 }
 
-echo $machinetagslug;
+echo "the slug is".$machinetagslug;
 
 $pieces = explode("=", $machinetagname);
 
@@ -148,11 +195,8 @@ echo "objectid is ".$objectid;
 
 if ($subjectid && $predicateid && $objectid){
 
-$sql = "INSERT INTO ".$wpdb->prefix."statement ( Id , SubjectId , PredicateId , OjectId ) VALUES ( '', '".$subjectid."', '".$predicateid."', '".$objectid."')";
+lh_relationships_machine_tags_add_relationship($subjectid, $predicateid, $objectid);
 
-echo $sql;
-
-$results = $wpdb->get_results($sql);
 
 } else {
 
@@ -169,7 +213,9 @@ add_post_meta($subjectid, $predicatearray[0]->prefix.":".$predicatearray[0]->fra
 }
 
 
-lh_relationships_delete_machine_tag($postinfo[0]->ID, $posttag->name);
+lh_relationships_delete_machine_tag($postinfo[0]->ID, $machinetagslug);
+
+}
 
 
 }

@@ -95,6 +95,9 @@ $bar = lh_relationships_create_attribute_uri_post($foo, "Dataset");
 
 $foo = lh_relationships_create_namespace_post("Semantic Web Crawling: Sitemap Extension", "http://sw.deri.org/2007/07/sitemapextension/scschema.xsd", "sc", "no");
 
+$foo = lh_relationships_create_namespace_post("RDF calender", "http://www.w3.org/2002/12/cal#", "ical", "no");
+
+$bar = lh_relationships_create_attribute_uri_post($foo, "Vevent");
 
 
 
