@@ -22,6 +22,28 @@ echo "<select name=\"lh_relationships_rdf_type\">
 
 }
 
+function lh_relationships_update_uri_type(){
+global $post;
+global $wpdb;
+
+if ($_POST["lh_relationships_rdf_type"]){
+
+$lhrdf_sql = "SELECT ID FROM ".$wpdb->prefix."posts WHERE  ".$wpdb->prefix."posts.guid ='".$_POST["lh_relationships_rdf_type"]."'";
+
+$results = $wpdb->get_results($lhrdf_sql);
+
+lh_relationships_create_rdf_statement($post->ID,"rdf","type",$results[0]->ID);
+
+}
+
+}
+
+add_action('save_post', 'lh_relationships_update_uri_type');
+
+add_action('save_page', 'lh_relationships_update_uri_type');
+
+
+
 
 function lh_relationships_event_date($arg) {
 

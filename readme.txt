@@ -25,6 +25,9 @@ For detailed information on the plugin, what it does, and what it can be used to
 
 == Changelog ==
 
+**0.2.1 December 10, 2013**  
+Add rdf type metabox
+
 **0.2.0 December 10, 2013**  
 Added events handler
 
